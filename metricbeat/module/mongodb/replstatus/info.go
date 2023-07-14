@@ -93,7 +93,7 @@ func getReplicationInfo(client *mongo.Client) (*oplogInfo, error) {
 }
 
 func getOpTimestamp(collection *mongo.Collection, sort string) (uint32, error) {
-	opt := options.Find().SetSort(bson.D{{Key: sort, Value: 1}})
+	opt := options.Find().SetSort(bson.D{{Key: sort, Value: 1}}).SetAllowDiskUse(true)
 	cursor, err := collection.Find(context.Background(), bson.D{}, opt)
 	if err != nil {
 		return 0, fmt.Errorf("could not get cursor on collection '%s': %w", collection.Name(), err)
